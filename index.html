@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0b0f" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta
+      name="description"
+      content="Tavheeda Bashir Bara — APMP Certified Proposal Specialist with 6+ years of end-to-end proposal development across federal, state/local and commercial markets."
+    />
+    <title>Tavheeda Bashir Bara — Proposal Specialist</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Theme bootstrap. Runs before first paint so there is never a flash of the
+      wrong theme. The storage key MUST stay in sync with STORAGE_KEYS.theme
+      in `src/config/constants.ts` (Zustand `persist` envelope: { state: { mode } }).
+    -->
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem('tb-theme');
+          var mode = raw ? (JSON.parse(raw).state || {}).mode : null;
+          if (mode !== 'light' && mode !== 'dark') mode = 'system';
+          var isDark =
+            mode === 'dark' ||
+            (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          var root = document.documentElement;
+          root.classList.toggle('dark', isDark);
+          root.style.colorScheme = isDark ? 'dark' : 'light';
+        } catch (_) {
+          /* private mode / storage disabled — fall back to the CSS default */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
