@@ -8,9 +8,11 @@ import { Button } from '@/components/ui/Button';
 import { ROUTES } from '@/config/routes';
 import { SITE } from '@/config/site';
 import { ThemeToggle } from '@/features/theme';
+import { useGsapContext } from '@/hooks';
 import { MobileNav } from '@/layouts/components/MobileNav';
 import { NavLinks } from '@/layouts/components/NavLinks';
 import { cn } from '@/lib/cn';
+import { ScrollTrigger } from '@/lib/gsap';
 import { selectMobileNavOpen, useUiStore } from '@/store/ui.store';
 
 /**
@@ -18,7 +20,10 @@ import { selectMobileNavOpen, useUiStore } from '@/store/ui.store';
  *
  * The blur + translucent background is a `backdrop-filter`, which the
  * compositor handles; a scroll-listener-driven `useState` would re-render this
- * subtree on every frame instead.
+ * subtree on every frame instead. The scrolled-depth state below follows the
+ * same rule: a ScrollTrigger flips a `data-scrolled` attribute directly on the
+ * DOM node, and a plain CSS transition (`globals.css`) does the rest — no
+ * re-render, no GSAP tween of a layout property.
  */
 export function Header() {
   const isMobileNavOpen = useUiStore(selectMobileNavOpen);
@@ -30,8 +35,22 @@ export function Header() {
     setMobileNavOpen(false);
   }, [location.pathname, setMobileNavOpen]);
 
+  const root = useGsapContext<HTMLElement>(({ scope }) => {
+    const trigger = ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 'top -1',
+      onToggle: (self) => {
+        scope.setAttribute('data-scrolled', String(self.isActive));
+      },
+    });
+    return () => trigger.kill();
+  }, []);
+
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-surface/80 backdrop-blur-xl">
+    <header
+      ref={root}
+      className="sticky top-0 z-40 border-b border-line/70 bg-surface/80 backdrop-blur-xl transition-[border-color,box-shadow] duration-300 ease-[var(--ease-out-soft)]"
+    >
       <Container className="flex h-16 items-center justify-between gap-6">
         <Link
           to={ROUTES.home}
@@ -47,7 +66,7 @@ export function Header() {
           >
             {SITE.shortName}
           </span>
-          <span className="tracking-[-0.015em]">{SITE.name}</span>
+          <span className="hidden tracking-[-0.015em] lg:inline">{SITE.name}</span>
         </Link>
 
         <nav aria-label="Main" className="hidden md:block">

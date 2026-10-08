@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowRight, ChevronDown, ExternalLink, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router';
 
 import { Container } from '@/components/common/Container';
@@ -55,8 +55,18 @@ export function HeroSection() {
     });
   });
 
+  const scrollToNext = () => {
+    const el = root.current;
+    if (!el) return;
+    gsap.to(window, {
+      duration: DURATION.lg,
+      ease: EASE.outSoft,
+      scrollTo: { y: el.offsetHeight, autoKill: true },
+    });
+  };
+
   return (
-    <div ref={root} className="relative overflow-hidden">
+    <div ref={root} className="relative min-h-[calc(100dvh-4rem)] overflow-hidden">
       <div
         data-glow
         aria-hidden="true"
@@ -67,7 +77,7 @@ export function HeroSection() {
         }}
       />
 
-      <Container className="relative pt-24 pb-20 sm:pt-32 sm:pb-28">
+      <Container className="relative flex min-h-[calc(100dvh-4rem)] flex-col justify-center py-20 sm:py-28">
         <Reveal immediate preset="fade" className="mb-8">
           <Badge tone="brand" size="md">
             {PROFILE.title} · APMP Certified
@@ -89,7 +99,7 @@ export function HeroSection() {
           preset="fade-up"
           delay={0.4}
           as="p"
-          className="mt-6 max-w-2xl text-lg leading-relaxed text-content-secondary sm:text-xl"
+          className="text-gradient mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl"
         >
           {PROFILE.headline}
         </Reveal>
@@ -116,13 +126,41 @@ export function HeroSection() {
           <Button asChild variant="secondary" size="lg">
             <Link to={ROUTES.contact}>Get in touch</Link>
           </Button>
-          <Button asChild variant="ghost" size="lg">
+          <Button
+            asChild
+            variant="ghost"
+            size="lg"
+            className="group"
+            rightIcon={
+              <ExternalLink
+                aria-hidden="true"
+                className="size-4 transition-transform duration-200 ease-[var(--ease-out-soft)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
+            }
+          >
             <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
               LinkedIn
             </a>
           </Button>
         </Reveal>
       </Container>
+
+      <Reveal
+        immediate
+        preset="fade"
+        delay={1}
+        className="absolute inset-x-0 bottom-6 hidden justify-center sm:flex"
+      >
+        <button
+          type="button"
+          onClick={scrollToNext}
+          className="group flex flex-col items-center gap-2 text-content-muted transition-colors duration-200 hover:text-content"
+        >
+          <span className="text-xs font-medium tracking-wide uppercase">Scroll</span>
+          <ChevronDown aria-hidden="true" className="size-4 animate-bounce" />
+          <span className="sr-only">Scroll to the next section</span>
+        </button>
+      </Reveal>
     </div>
   );
 }

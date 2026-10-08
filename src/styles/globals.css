@@ -250,6 +250,15 @@
 }
 
 @layer components {
+  /* Sticky header gains depth once the page is actually scrolled. The
+     boolean is set by a ScrollTrigger (see `Header.tsx`), not React state —
+     this is a plain CSS transition on a data-attribute toggle, same idiom as
+     `Card`'s hover state. */
+  header[data-scrolled='true'] {
+    border-color: var(--color-line-strong);
+    box-shadow: var(--shadow-subtle);
+  }
+
   /* Swiper theming — scoped overrides so the vendor CSS stays untouched. */
   .swiper-pagination-bullet {
     background-color: var(--color-content-muted);
