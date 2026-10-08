@@ -97,8 +97,13 @@ export function RouteTransition() {
     };
   }, [displayed.key, reduced]);
 
+  // No `will-animate`: that utility's permanent `transform` would give this
+  // page-wrapping div a CSS containing block, which hijacks any descendant
+  // using `position: fixed` — including GSAP ScrollTrigger's pinned sections
+  // (e.g. the Experience page's horizontal rail), pulling them off-screen as
+  // the page scrolls instead of leaving them fixed to the viewport.
   return (
-    <div ref={containerRef} className="will-animate">
+    <div ref={containerRef}>
       {displayed.node}
     </div>
   );

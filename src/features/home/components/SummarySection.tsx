@@ -7,7 +7,7 @@ import { PROFILE } from '@/data/resume';
 export function SummarySection() {
   return (
     <Section aria-labelledby="summary-heading">
-      <Container className="max-w-3xl">
+      <Container>
         <AnimatedText
           as="h2"
           unit="line"

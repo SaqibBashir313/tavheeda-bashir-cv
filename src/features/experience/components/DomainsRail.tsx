@@ -1,3 +1,21 @@
+import {
+  Anchor,
+  Cpu,
+  HardHat,
+  House,
+  type LucideIcon,
+  Medal,
+  Plane,
+  RadioTower,
+  Shield,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  Users,
+  Wheat,
+  Workflow,
+} from 'lucide-react';
+
 import { HorizontalScroll } from '@/components/motion/HorizontalScroll';
 import { Badge } from '@/components/ui/Badge';
 import { AGENCIES, DOMAINS } from '@/data/resume';
@@ -6,10 +24,32 @@ import { cn } from '@/lib/cn';
 /** Hue per panel — generated, so no image assets and it re-themes itself. */
 const HUE_STEP = 42;
 
+/**
+ * One line-art mark per panel instead of stock photography — crisp at any
+ * size, re-colors with the generated gradient for free, and ships zero image
+ * weight. Picked for what the title names, not decoration.
+ */
+const PANEL_ICONS: Record<string, LucideIcon> = {
+  IT: Cpu,
+  Telecommunications: RadioTower,
+  'Systems Integration': Workflow,
+  'Public Safety': ShieldCheck,
+  Healthcare: Stethoscope,
+  Staffing: Users,
+  'Facilities / Janitorial Services': HardHat,
+  'U.S. Department of Defense': Shield,
+  Army: Medal,
+  Navy: Anchor,
+  'U.S. Air Force': Plane,
+  'Department of Agriculture': Wheat,
+  'Department of Housing and Urban Development': House,
+};
+
 interface Panel {
   kind: string;
   title: string;
   detail: string;
+  icon: LucideIcon;
 }
 
 /**
@@ -25,11 +65,13 @@ export function DomainsRail() {
       kind: 'Domain',
       title: domain,
       detail: 'Proposals developed in this domain',
+      icon: PANEL_ICONS[domain] ?? Sparkles,
     })),
     ...AGENCIES.map((agency) => ({
       kind: 'Agency',
       title: agency,
       detail: 'Management sections authored for this customer',
+      icon: PANEL_ICONS[agency] ?? Sparkles,
     })),
   ];
 
@@ -56,6 +98,12 @@ export function DomainsRail() {
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent"
+          />
+
+          <panel.icon
+            aria-hidden="true"
+            strokeWidth={1}
+            className="absolute inset-x-0 top-10 bottom-28 m-auto size-24 text-white/20 sm:size-28 lg:size-32"
           />
 
           <div className="relative space-y-3">
