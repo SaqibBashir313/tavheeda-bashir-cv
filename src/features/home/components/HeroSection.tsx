@@ -76,7 +76,7 @@ export function HeroSection() {
 
         <AnimatedText
           as="h1"
-          unit="line"
+          unit="word"
           immediate
           delay={0.08}
           className="max-w-4xl text-display-lg font-semibold"

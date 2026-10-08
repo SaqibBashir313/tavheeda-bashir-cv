@@ -75,7 +75,7 @@ export const env: AppEnv = {
   isDev: import.meta.env.DEV,
   isProd: import.meta.env.PROD,
   features: {
-    mockApi: readBoolean('VITE_ENABLE_MOCK_API', true),
+    mockApi: readBoolean('VITE_ENABLE_MOCK_API', false),
     analytics: readBoolean('VITE_ENABLE_ANALYTICS', false),
   },
 };

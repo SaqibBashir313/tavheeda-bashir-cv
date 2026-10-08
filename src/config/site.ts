@@ -9,7 +9,7 @@ export const SITE = {
   shortName: PROFILE.initials,
   role: PROFILE.title,
   tagline: PROFILE.headline,
-  description: PROFILE.summary,
+  description: PROFILE.headline,
   email: PROFILE.email,
   phone: PROFILE.phone,
   location: PROFILE.location,

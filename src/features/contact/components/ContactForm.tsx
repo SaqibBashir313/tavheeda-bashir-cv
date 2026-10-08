@@ -64,9 +64,6 @@ export function ContactForm() {
         >
           {isSubmitting ? 'Sending…' : 'Send message'}
         </Button>
-        <p className="text-xs text-content-muted">
-          Tip: use an <code className="font-mono">@fail.test</code> address to see the error path.
-        </p>
       </div>
     </form>
   );
