@@ -19,7 +19,9 @@ import {
 import { HorizontalScroll } from '@/components/motion/HorizontalScroll';
 import { Badge } from '@/components/ui/Badge';
 import { AGENCIES, DOMAINS } from '@/data/resume';
+import { useGsapContext } from '@/hooks';
 import { cn } from '@/lib/cn';
+import { batchReveal } from '@/lib/gsap/motion';
 
 /** Hue per panel — generated, so no image assets and it re-themes itself. */
 const HUE_STEP = 42;
@@ -75,48 +77,60 @@ export function DomainsRail() {
     })),
   ];
 
+  // A plain ref — not `<Reveal>` — on purpose: `<Reveal>` stamps `will-animate`
+  // (a permanent `transform`) on its wrapper, which gives this pinned rail's
+  // ancestor a containing block and hijacks ScrollTrigger's pin. See the
+  // `will-animate` note in `RouteTransition`.
+  const root = useGsapContext<HTMLDivElement>(({ scope, reduced }) => {
+    const panelEls = Array.from(scope.querySelectorAll<HTMLElement>('article'));
+    if (panelEls.length === 0) return;
+    batchReveal(panelEls, { preset: 'clip-up', reduced });
+  }, []);
+
   return (
-    <HorizontalScroll trackClassName="lg:px-[12vw]">
-      {panels.map((panel, index) => (
-        <article
-          key={panel.title}
-          className={cn(
-            'relative flex h-[52vh] w-[74vw] shrink-0 snap-center flex-col justify-end',
-            'overflow-hidden rounded-3xl p-8 text-white sm:w-[46vw] lg:h-[54vh] lg:w-[32vw]',
-          )}
-          style={{
-            backgroundImage: `linear-gradient(150deg, oklch(58% 0.17 ${String(index * HUE_STEP)}), oklch(70% 0.13 ${String(index * HUE_STEP + 40)}))`,
-          }}
-        >
-          <span
-            aria-hidden="true"
-            className="absolute top-6 right-6 font-mono text-xs tracking-widest text-white/70"
+    <div ref={root}>
+      <HorizontalScroll trackClassName="lg:px-[12vw]">
+        {panels.map((panel, index) => (
+          <article
+            key={panel.title}
+            className={cn(
+              'relative flex h-[52vh] w-[74vw] shrink-0 snap-center flex-col justify-end will-animate',
+              'overflow-hidden rounded-3xl p-8 text-white sm:w-[46vw] lg:h-[54vh] lg:w-[32vw]',
+            )}
+            style={{
+              backgroundImage: `linear-gradient(150deg, oklch(58% 0.17 ${String(index * HUE_STEP)}), oklch(70% 0.13 ${String(index * HUE_STEP + 40)}))`,
+            }}
           >
-            {String(index + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
-          </span>
+            <span
+              aria-hidden="true"
+              className="absolute top-6 right-6 font-mono text-xs tracking-widest text-white/70"
+            >
+              {String(index + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
+            </span>
 
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent"
-          />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-linear-to-t from-black/45 via-transparent to-transparent"
+            />
 
-          <panel.icon
-            aria-hidden="true"
-            strokeWidth={1}
-            className="absolute inset-x-0 top-10 bottom-28 m-auto size-24 text-white/20 sm:size-28 lg:size-32"
-          />
+            <panel.icon
+              aria-hidden="true"
+              strokeWidth={1}
+              className="absolute inset-x-0 top-10 bottom-28 m-auto size-24 text-white/20 sm:size-28 lg:size-32"
+            />
 
-          <div className="relative space-y-3">
-            <Badge tone="neutral" className="bg-white/15 text-white backdrop-blur-sm">
-              {panel.kind}
-            </Badge>
-            <h3 className="font-display text-2xl leading-tight font-semibold tracking-[-0.02em] sm:text-3xl">
-              {panel.title}
-            </h3>
-            <p className="max-w-sm text-sm leading-relaxed text-white/85">{panel.detail}</p>
-          </div>
-        </article>
-      ))}
-    </HorizontalScroll>
+            <div className="relative space-y-3">
+              <Badge tone="neutral" className="bg-white/15 text-white backdrop-blur-sm">
+                {panel.kind}
+              </Badge>
+              <h3 className="font-display text-2xl leading-tight font-semibold tracking-[-0.02em] sm:text-3xl">
+                {panel.title}
+              </h3>
+              <p className="max-w-sm text-sm leading-relaxed text-white/85">{panel.detail}</p>
+            </div>
+          </article>
+        ))}
+      </HorizontalScroll>
+    </div>
   );
 }
