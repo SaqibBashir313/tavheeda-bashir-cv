@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { Container, Section } from '@/components/common/Container';
 import { SectionHeading } from '@/components/common/SectionHeading';
-import { StaggerGroup } from '@/components/motion/Reveal';
+import { Reveal, StaggerGroup } from '@/components/motion/Reveal';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Modal } from '@/components/ui/Modal';
@@ -103,24 +103,26 @@ export default function ExperiencePage() {
           <SectionHeading
             eyebrow="Contract vehicles"
             title="Vehicles worked and managed."
-            description="Hover or focus a card to see the role it was worked under."
+            // description="Hover or focus a card to see the role it was worked under."
           />
           <h2 id="vehicles-heading" className="sr-only">
             Contract vehicles
           </h2>
-          <VehiclesCarousel vehicles={CONTRACT_VEHICLES} />
+          <Reveal preset="scale-in" delay={0.1}>
+            <VehiclesCarousel vehicles={CONTRACT_VEHICLES} />
+          </Reveal>
         </Container>
       </Section>
 
       <section aria-labelledby="rail-heading" className="py-10">
         <Container className="mb-10">
-          <h2 id="rail-heading" className="text-display-sm font-semibold">
-            Domains &amp; agencies.
+          <SectionHeading
+            title="Domains & agencies."
+            description="Every domain and agency named in the CV, drifting on its own — hover or focus a card to pause it."
+          />
+          <h2 id="rail-heading" className="sr-only">
+            Domains &amp; agencies
           </h2>
-          <p className="mt-3 max-w-md text-content-secondary">
-            On desktop this section pins and converts vertical scroll into horizontal movement. On
-            touch devices it becomes a native scroll-snap rail.
-          </p>
         </Container>
         <DomainsRail />
       </section>
