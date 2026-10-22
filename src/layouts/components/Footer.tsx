@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 
 import { Container } from '@/components/common/Container';
-import { Reveal, StaggerGroup } from '@/components/motion/Reveal';
+import { StaggerGroup } from '@/components/motion/Reveal';
 import { NAV_ITEMS } from '@/config/routes';
 import { SITE } from '@/config/site';
 
@@ -16,11 +16,9 @@ export function Footer() {
           className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between"
         >
           <div data-footer-col className="max-w-xs space-y-4">
-            <Reveal preset="fade-up">
-              <p className="font-display text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
-                {SITE.name}
-              </p>
-            </Reveal>
+            <p className="font-display text-xl font-semibold tracking-[-0.02em] sm:text-2xl">
+              {SITE.name}
+            </p>
             <p className="text-sm leading-relaxed text-content-muted">{SITE.description}</p>
           </div>
 

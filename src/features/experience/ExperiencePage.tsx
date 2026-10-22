@@ -103,7 +103,7 @@ export default function ExperiencePage() {
           <SectionHeading
             eyebrow="Contract vehicles"
             title="Vehicles worked and managed."
-            description="Hover or focus a card to see the role it was worked under."
+            // description="Hover or focus a card to see the role it was worked under."
           />
           <h2 id="vehicles-heading" className="sr-only">
             Contract vehicles
@@ -118,7 +118,7 @@ export default function ExperiencePage() {
         <Container className="mb-10">
           <SectionHeading
             title="Domains & agencies."
-            description="On desktop this section pins and converts vertical scroll into horizontal movement. On touch devices it becomes a native scroll-snap rail."
+            description="Every domain and agency named in the CV, drifting on its own — hover or focus a card to pause it."
           />
           <h2 id="rail-heading" className="sr-only">
             Domains &amp; agencies

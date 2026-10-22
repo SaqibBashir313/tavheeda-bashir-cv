@@ -16,12 +16,11 @@ import {
   Workflow,
 } from 'lucide-react';
 
-import { HorizontalScroll } from '@/components/motion/HorizontalScroll';
+import { Marquee } from '@/components/motion/Marquee';
+import { Reveal } from '@/components/motion/Reveal';
 import { Badge } from '@/components/ui/Badge';
 import { AGENCIES, DOMAINS } from '@/data/resume';
-import { useGsapContext } from '@/hooks';
 import { cn } from '@/lib/cn';
-import { batchReveal } from '@/lib/gsap/motion';
 
 /** Hue per panel — generated, so no image assets and it re-themes itself. */
 const HUE_STEP = 42;
@@ -55,11 +54,9 @@ interface Panel {
 }
 
 /**
- * Pinned horizontal rail of delivery domains and the agencies named in the CV.
- *
- * Panels are sized in viewport units so the rail's total width — and therefore
- * its scroll distance — is derived from layout rather than hard-coded, which
- * keeps it correct at every breakpoint and after a resize.
+ * Continuously scrolling marquee of delivery domains and the agencies named
+ * in the CV. Drifts on its own timeline — not tied to scroll position — and
+ * pauses on hover/focus so a visitor can actually read a card.
  */
 export function DomainsRail() {
   const panels: Panel[] = [
@@ -77,24 +74,17 @@ export function DomainsRail() {
     })),
   ];
 
-  // A plain ref — not `<Reveal>` — on purpose: `<Reveal>` stamps `will-animate`
-  // (a permanent `transform`) on its wrapper, which gives this pinned rail's
-  // ancestor a containing block and hijacks ScrollTrigger's pin. See the
-  // `will-animate` note in `RouteTransition`.
-  const root = useGsapContext<HTMLDivElement>(({ scope, reduced }) => {
-    const panelEls = Array.from(scope.querySelectorAll<HTMLElement>('article'));
-    if (panelEls.length === 0) return;
-    batchReveal(panelEls, { preset: 'clip-up', reduced });
-  }, []);
-
   return (
-    <div ref={root}>
-      <HorizontalScroll trackClassName="lg:px-[12vw]">
-        {panels.map((panel, index) => (
+    <Reveal preset="fade">
+      <Marquee
+        items={panels}
+        getKey={(panel) => panel.title}
+        secondsPerItem={4}
+        trackClassName="lg:px-[12vw]"
+        renderItem={(panel, index) => (
           <article
-            key={panel.title}
             className={cn(
-              'relative flex h-[52vh] w-[74vw] shrink-0 snap-center flex-col justify-end will-animate',
+              'relative flex h-[52vh] w-[74vw] shrink-0 flex-col justify-end',
               'overflow-hidden rounded-3xl p-8 text-white sm:w-[46vw] lg:h-[54vh] lg:w-[32vw]',
             )}
             style={{
@@ -129,8 +119,8 @@ export function DomainsRail() {
               <p className="max-w-sm text-sm leading-relaxed text-white/85">{panel.detail}</p>
             </div>
           </article>
-        ))}
-      </HorizontalScroll>
-    </div>
+        )}
+      />
+    </Reveal>
   );
 }

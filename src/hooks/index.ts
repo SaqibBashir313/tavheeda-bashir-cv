@@ -8,5 +8,5 @@ export { useEventListener } from './useEventListener';
 export type { GsapScopeApi } from './useGsapContext';
 export { useGsapContext } from './useGsapContext';
 export { useLocalStorage } from './useLocalStorage';
-export { useHasHover, useIsDesktop, useMediaQuery, usePrefersReducedMotion } from './useMediaQuery';
+export { useHasHover, useMediaQuery, usePrefersReducedMotion } from './useMediaQuery';
 export { useReturnFocus } from './useReturnFocus';

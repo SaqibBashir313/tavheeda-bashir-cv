@@ -35,7 +35,3 @@ export function usePrefersReducedMotion(): boolean {
 export function useHasHover(): boolean {
   return useMediaQuery(MEDIA_QUERIES.hover);
 }
-
-export function useIsDesktop(): boolean {
-  return useMediaQuery(MEDIA_QUERIES.lgUp);
-}

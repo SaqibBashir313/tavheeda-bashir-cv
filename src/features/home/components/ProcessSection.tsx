@@ -42,12 +42,12 @@ export function ProcessSection() {
   }, []);
 
   return (
-    <Section aria-labelledby="process-heading">
+    <Section aria-labelledby="process-heading" className="bg-surface-sunken">
       <Container className="space-y-14">
         <SectionHeading
           eyebrow="Process"
           title="How a proposal actually gets built."
-          description="The same six-stage lifecycle repeats across every pursuit - condensed from the role history on this site."
+          description="The same six-stage lifecycle repeats across every pursuit — condensed from the role history on this site."
         />
         <h2 id="process-heading" className="sr-only">
           Process

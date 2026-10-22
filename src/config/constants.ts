@@ -19,7 +19,6 @@ export const MEDIA_QUERIES = {
   dark: '(prefers-color-scheme: dark)',
   hover: '(hover: hover) and (pointer: fine)',
   belowLg: `(max-width: ${BREAKPOINTS.lg - 1}px)`,
-  lgUp: `(min-width: ${BREAKPOINTS.lg}px)`,
 } as const;
 
 export const TOAST_DEFAULTS = {

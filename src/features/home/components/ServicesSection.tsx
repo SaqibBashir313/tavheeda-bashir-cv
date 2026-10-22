@@ -1,6 +1,7 @@
 import { Container, Section } from '@/components/common/Container';
 import { SectionHeading } from '@/components/common/SectionHeading';
 import { StaggerGroup } from '@/components/motion/Reveal';
+import { TiltCard } from '@/components/motion/TiltCard';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { SERVICES } from '@/data/presentation';
@@ -13,7 +14,7 @@ export function ServicesSection() {
         <SectionHeading
           eyebrow="Services"
           title="Proposal work, organized."
-          description="Capabilities grouped from the CV - a map of what the work covers, not a sales pitch."
+          description="Capabilities grouped from the CV — a map of what the work covers, not a sales pitch."
         />
         <h2 id="services-heading" className="sr-only">
           Services
@@ -27,22 +28,24 @@ export function ServicesSection() {
         >
           {SERVICES.map((service) => (
             <li key={service.title}>
-              <Card interactive padding="lg" className="h-full space-y-4">
-                <span className="grid size-10 place-items-center rounded-xl bg-surface-sunken text-content">
-                  <service.icon aria-hidden="true" className="size-4.5" />
-                </span>
-                <div className="space-y-2">
-                  <h3 className="text-base font-semibold tracking-[-0.01em]">{service.title}</h3>
-                  <p className="text-sm leading-relaxed text-content-secondary">{service.description}</p>
-                </div>
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {service.skills.map((skill) => (
-                    <Badge key={skill} tone="neutral" size="sm">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </Card>
+              <TiltCard maxTilt={6} perspective={1200}>
+                <Card interactive padding="lg" className="h-full space-y-4">
+                  <span className="grid size-10 place-items-center rounded-xl bg-surface-sunken text-content">
+                    <service.icon aria-hidden="true" className="size-4.5" />
+                  </span>
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold tracking-[-0.01em]">{service.title}</h3>
+                    <p className="text-sm leading-relaxed text-content-secondary">{service.description}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {service.skills.map((skill) => (
+                      <Badge key={skill} tone="neutral" size="sm">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </Card>
+              </TiltCard>
             </li>
           ))}
         </StaggerGroup>

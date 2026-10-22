@@ -60,7 +60,7 @@ export function FinalCtaSection() {
           }}
         />
 
-        <Container className="relative flex flex-col items-center gap-6 py-20 text-center sm:py-28">
+        <Container className="relative flex flex-col items-center gap-6 text-center">
           <Badge tone="brand" size="md">
             {FINAL_CTA.eyebrow}
           </Badge>
